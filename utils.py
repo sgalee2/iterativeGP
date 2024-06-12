@@ -55,3 +55,5 @@ def train(
     likelihood.eval()
 
     return model
+
+def load_data(dataset, )
