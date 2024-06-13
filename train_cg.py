@@ -29,8 +29,8 @@ def parse_args():
 
     return parser.parse_args()
 
-    def run():
-        pass
+def run():
+    pass
 
 if __name__ == "__main__":
 
