@@ -16,7 +16,7 @@ def parse_args():
                                  "SGEMMGPU", "Song"])
     
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--kernel", type=str, choices=['matern15', 'matern', 'rbf'])
+    parser.add_argument("--kernel", type=str, choices=['RBF-ARD', 'RBF', 'Matern32', 'Matern52'])
     parser.add_argument("--preconditioner", type=str, choices=['pivchol', 'rpchol', 'nyssvd'])
     parser.add_argument("--noise_constraint", type=float, default=1e-4)
 
