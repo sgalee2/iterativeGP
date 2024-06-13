@@ -17,7 +17,7 @@ def parse_args():
     
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--kernel", type=str, choices=['matern15', 'matern', 'rbf'])
-    parser.add_argument("--preconditioner", type=str, choices=['piv_chol', 'rp_chol', 'r_nys'])
+    parser.add_argument("--preconditioner", type=str, choices=['pivchol', 'rpchol', 'nyssvd'])
     parser.add_argument("--noise_constraint", type=float, default=1e-4)
 
     parser.add_argument("--eta", type=float)
@@ -29,6 +29,14 @@ def parse_args():
 
     return parser.parse_args()
 
+def train_data(data_name, seed, device):
+    func = getattr(uci, data_name)
+    ds = data.UCI_Dataset(func, seed=seed, device=device)
+    ds.preprocess()
+    return ds.train_x, ds.train_y
+
+
+
 def run():
     pass
 
@@ -36,16 +44,10 @@ if __name__ == "__main__":
 
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     args = parse_args()
-    print(args)
 
-    if args.preconditioner == "piv_chol":
-        with gpytorch.settings.use_pivchol_preconditioner():
-            run()
-    elif args.preconditioner == "rp_chol":
-        with gpytorch.settings.use_rpchol_preconditioner():
-            run()
-    elif args.preconditioner == "r_nys":
-        with gpytorch.settings.use_nyssvd_preconditioner():
-            run()
-    else:
-        assert 0
+    train_x, train_y = train_data(args.dataset, args.seed, device)
+
+    precon_func = getattr(settings, args.preconditioner)
+
+    with precon_func():
+        run()
