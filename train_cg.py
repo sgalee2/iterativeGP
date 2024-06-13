@@ -54,6 +54,6 @@ if __name__ == "__main__":
     with settings.max_preconditioner_size(args.precond_size), \
          settings.cg_tolerance(args.tol), \
          settings.max_cg_iterations(args.max_cg_iterations), \
-         precon_fun():
+         precon_func():
 
             run(args)
