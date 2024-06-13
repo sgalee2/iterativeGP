@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument("--precond_size", type=int)
     parser.add_argument("--max_cg_iterations", type=int)
     parser.add_argument("--tol", type=float)
-    parser.add_argument("--save_loc", type=str, default="./checkpoints")
+    parser.add_argument("--save_loc", type=str)
 
     return parser.parse_args()
 
@@ -34,10 +34,6 @@ def train_data(data_name, seed, device):
     ds = data.UCI_Dataset(func, seed=seed, device=device)
     ds.preprocess()
     return ds.train_x, ds.train_y
-
-def run(args):
-    print(args)
-    pass
 
 if __name__ == "__main__":
 
@@ -56,4 +52,8 @@ if __name__ == "__main__":
          settings.max_cg_iterations(args.max_cg_iterations), \
          precon_func():
 
-            run(args)
+            if args.save_loc is not None:
+                train(model, likelihood, train_x, train_y,
+                eta = args.eta, maxiter=args.maxiter, save_loc = save_loc)
+            else:
+                print("No save location specified.")
