@@ -35,9 +35,8 @@ def train_data(data_name, seed, device):
     ds.preprocess()
     return ds.train_x, ds.train_y
 
-
-
-def run():
+def run(args):
+    print(args)
     pass
 
 if __name__ == "__main__":
@@ -49,5 +48,13 @@ if __name__ == "__main__":
 
     precon_func = getattr(settings, args.preconditioner)
 
-    with precon_func():
-        run()
+    likelihood = gpytorch.likelihoods.GaussianLikelihood().to(device)
+    model = ExactGPModel(train_x, train_y, likelihood, kernel = args.kernel).to(device)
+
+    with settings.max_preconditioner_size(args.precond_size), \
+         #settings.skip_logdet_forward(), \
+         settings.cg_tolerance(args.tol), \
+         settings.max_cg_iterations(args.max_cg_iterations), \
+         precon_fun():
+
+            run(args)
