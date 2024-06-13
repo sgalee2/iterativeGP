@@ -54,6 +54,6 @@ if __name__ == "__main__":
 
             if args.save_loc is not None:
                 train(model, likelihood, train_x, train_y,
-                eta = args.eta, maxiter=args.maxiter, save_loc = save_loc)
+                eta = args.eta, maxiter=args.maxiter, save_loc = args.save_loc)
             else:
                 print("No save location specified.")
