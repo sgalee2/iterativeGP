@@ -1,6 +1,8 @@
 # Recommendations for Iterative Gaussian Process models
 This repository contains experiments demonstrating recommended settings and algorithms for efficient Gaussian Process models using iterative methods.
 
+**It is highly recommended that the scripts are run with CUDA available. Otherwise it will run, but very slowly.**
+
 ## Dependency
 The following packages are required:
   - python == 3.8
