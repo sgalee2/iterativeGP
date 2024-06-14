@@ -16,15 +16,15 @@ def parse_args():
                                  "SGEMMGPU", "Song"])
     
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--kernel", type=str, choices=['RBF-ARD', 'RBF', 'Matern32', 'Matern52'])
-    parser.add_argument("--preconditioner", type=str, choices=['pivchol', 'rpchol', 'nyssvd'])
+    parser.add_argument("--kernel", type=str, choices=['RBF-ARD', 'RBF', 'Matern32', 'Matern52'], default='RBF-ARD')
+    parser.add_argument("--preconditioner", type=str, choices=['pivchol', 'rpchol', 'nyssvd'], default='pivchol')
     parser.add_argument("--noise_constraint", type=float, default=1e-4)
 
-    parser.add_argument("--eta", type=float)
-    parser.add_argument("--maxiter", type=int)
-    parser.add_argument("--precond_size", type=int)
-    parser.add_argument("--max_cg_iterations", type=int)
-    parser.add_argument("--tol", type=float)
+    parser.add_argument("--eta", type=float, default=0.1)
+    parser.add_argument("--maxiter", type=int, default=20)
+    parser.add_argument("--precond_size", type=int, default=15)
+    parser.add_argument("--max_cg_iterations", type=int, default=1000)
+    parser.add_argument("--tol", type=float, default=0.1)
     parser.add_argument("--save_loc", type=str)
 
     return parser.parse_args()
