@@ -1,9 +1,10 @@
-import os
-
-import torch
+import torch, os, argparse
 
 import gpytorch
 import gpytorch.settings as settings
+
+import uci_data_loader.data as data
+import uci_data_loader.uci as uci
 
 
 def train(
@@ -57,3 +58,31 @@ def train(
     likelihood.eval()
 
     return model
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--dataset", type=str, 
+                        choices=["AirQuality", "BikeSharing", "GasSensors", "HouseholdPower",
+                                 "KEGGUndir", "Parkinsons", "Protein", "RoadNetwork",
+                                 "SGEMMGPU", "Song"])
+    
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--kernel", type=str, choices=['RBF-ARD', 'RBF', 'Matern32', 'Matern52'], default='RBF-ARD')
+    parser.add_argument("--preconditioner", type=str, choices=['pivchol', 'rpchol', 'nyssvd'], default='pivchol')
+    parser.add_argument("--noise_constraint", type=float, default=1e-4)
+
+    parser.add_argument("--eta", type=float, default=0.1)
+    parser.add_argument("--maxiter", type=int, default=20)
+    parser.add_argument("--precond_size", type=int, default=15)
+    parser.add_argument("--max_cg_iterations", type=int, default=1000)
+    parser.add_argument("--tol", type=float, default=0.1)
+    parser.add_argument("--save_loc", type=str)
+
+    return parser.parse_args()
+
+def train_data(data_name, seed, device):
+    func = getattr(uci, data_name)
+    ds = data.UCI_Dataset(func, seed=seed, device=device)
+    ds.preprocess()
+    return ds.train_x, ds.train_y
