@@ -4,7 +4,7 @@ import gpytorch
 import gpytorch.settings as settings
 
 import uci_data_loader.data as data
-import uci_data_loader.uci as 
+import uci_data_loader.uci as uci
 
 from time import time
 
