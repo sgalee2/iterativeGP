@@ -78,6 +78,7 @@ def parse_args():
     parser.add_argument("--max_cg_iterations", type=int, default=1000)
     parser.add_argument("--tol", type=float, default=0.1)
     parser.add_argument("--save_loc", type=str, default='./tmp')
+    parser.add_argument("--batch", type=int, default=1000)
 
     return parser.parse_args()
 
