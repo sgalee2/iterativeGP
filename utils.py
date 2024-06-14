@@ -65,7 +65,7 @@ def parse_args():
     parser.add_argument("--dataset", type=str, 
                         choices=["AirQuality", "BikeSharing", "GasSensors", "HouseholdPower",
                                  "KEGGUndir", "Parkinsons", "Protein", "RoadNetwork",
-                                 "SGEMMGPU", "Song"])
+                                 "SGEMMGPU", "Song"], default="Parkinsons")
     
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--kernel", type=str, choices=['RBF-ARD', 'RBF', 'Matern32', 'Matern52'], default='RBF-ARD')
@@ -77,7 +77,7 @@ def parse_args():
     parser.add_argument("--precond_size", type=int, default=15)
     parser.add_argument("--max_cg_iterations", type=int, default=1000)
     parser.add_argument("--tol", type=float, default=0.1)
-    parser.add_argument("--save_loc", type=str)
+    parser.add_argument("--save_loc", type=str, default='./tmp')
 
     return parser.parse_args()
 
