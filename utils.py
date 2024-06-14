@@ -47,6 +47,8 @@ def train(
                 {
                     'epoch': i,
                     'model_state_dict': model.state_dict(),
+                    'lengthscale': model.covar_module.base_kernel.lengthscale,
+                    'noise': model.likelihood.noise.item(),
                     'lst_residual_norm': settings.record_residual.lst_residual_norm,
                 }, "{}/epoch_{}.tar".format(save_loc, i)
             )
