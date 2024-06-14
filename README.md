@@ -15,3 +15,10 @@ pip install git+https://www.github.com/sgalee2/gpytorch.git@altproj
 and is a branch of this [repository][link].
 
 [link]: https://github.com/cornellius-gp/gpytorch/tree/altproj
+
+## Example
+A simple example of GP training with Conjugate Gradients can be done by running
+```
+python train_cg.py
+```
+Checkpoints are automatically saved into `.\tmp`.
