@@ -4,7 +4,9 @@ import gpytorch
 import gpytorch.settings as settings
 
 import uci_data_loader.data as data
-import uci_data_loader.uci as uci
+import uci_data_loader.uci as 
+
+from time import time
 
 
 def train(
@@ -25,6 +27,7 @@ def train(
     mll = gpytorch.mlls.ExactMarginalLogLikelihood(likelihood, model)
 
     for i in range(maxiter):
+        t1 = time()
         optimizer.zero_grad()
         settings.record_residual.lst_residual_norm = []
 
@@ -33,6 +36,7 @@ def train(
         loss.backward()
 
         optimizer.step()
+        iter_time = time() - t1
 
         with torch.no_grad():
             print(
@@ -51,6 +55,7 @@ def train(
                     'lengthscale': model.covar_module.base_kernel.lengthscale,
                     'noise': model.likelihood.noise.item(),
                     'lst_residual_norm': settings.record_residual.lst_residual_norm,
+                    'iteration_time': iter_time,
                 }, "{}/epoch_{}.tar".format(save_loc, i)
             )
 
