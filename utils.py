@@ -15,7 +15,7 @@ def train(
     """
     if not os.path.isdir(save_loc):
         print("creating folder \'{}\'".format(save_loc))
-        os.mkdir(save_loc)
+        os.makedirs(save_loc)
 
     model.train()
     likelihood.train()
