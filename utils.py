@@ -92,3 +92,44 @@ def train_data(data_name, seed, device):
     ds = data.UCI_Dataset(func, seed=seed, device=device)
     ds.preprocess()
     return ds.train_x, ds.train_y
+
+def solve_system(
+    model, likelihood, train_x, train_y, 
+    save_loc=None, rand_rhs=False, trials=10
+    ):
+    """
+    Simple routine to solve the linear system Kv=b
+    """
+    n, d = train_x.shape
+    device = train_x.device
+    
+    if rand_rhs:
+        train_y = torch.randn(n, device=device)
+        train_y /= train_y.norm()
+    
+    
+    mvn = likelihood(model(train_x))
+    K_hat = mvn.lazy_covariance_matrix
+
+    res = torch.zeros(trials, gpytorch.settings.max_cg_iterations.value())
+    times = torch.zeros(trials)
+    
+    for i in range(trials):
+        gpytorch.settings.record_residual.lst_residual_norm = []
+        t1 = time()
+        sol = K_hat.inv_matmul(b)
+        times[i] = time() - t1
+        res[i, 0:len(gpytorch.settings.record_residual.lst_residual_norm)] = torch.tensor(gpytorch.settings.record_residual_lst_residual_norm)
+
+    avgs = res.sum(0) / (res != 0).sum(0)
+    avgs = avgs[:torch.where(torch.isnan(avgs))[0][0]]
+    times = times.mean()
+
+    torch.save(
+                {
+                    'average_error': avgs,
+                    'run_times': times
+                }, "{}/numtrials_{}.tar".format(save_loc, trials)
+            )
+
+
