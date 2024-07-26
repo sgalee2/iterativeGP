@@ -3,9 +3,10 @@ import torch, gpytorch
 import gpytorch.settings as settings
 
 from model import ExactGPModel
-from utils import train, parse_args, train_data
+from utils import train, parse_args, train_data, solve_system
 
 if __name__ == "__main__":
+    args = parse_args()
 
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     train_x, train_y = train_data(args.dataset, args.seed, device)
@@ -22,6 +23,6 @@ if __name__ == "__main__":
          precon_func():
 
             if args.save_loc is not None:
-                pass
+                solve_system(model, likelihood, train_x, train_y, save_loc=args.save_loc, rand_rhs=False, trials=args.maxiter)
             else:
                 print("No save location specified")
