@@ -109,15 +109,13 @@ def solve_system(
     if rand_rhs:
         train_y = torch.randn(n, device=device)
         train_y /= train_y.norm()
-    
-    
-    mvn = likelihood(model(train_x))
-    K_hat = mvn.lazy_covariance_matrix
 
     res = torch.zeros(trials, gpytorch.settings.max_cg_iterations.value())
     times = torch.zeros(trials)
     
     for i in range(trials):
+        mvn = likelihood(model(train_x))
+        K_hat = mvn.lazy_covariance_matrix
         gpytorch.settings.record_residual.lst_residual_norm = []
         t1 = time()
         sol = K_hat.inv_matmul(train_y)
