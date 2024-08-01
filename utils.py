@@ -100,6 +100,9 @@ def solve_system(
     """
     Simple routine to solve the linear system Kv=b
     """
+    if not os.path.isdir(save_loc):
+        print("creating folder \'{}\'".format(save_loc))
+        os.makedirs(save_loc)
     n, d = train_x.shape
     device = train_x.device
     
