@@ -119,7 +119,7 @@ def solve_system(
         t1 = time()
         sol = K_hat.inv_matmul(train_y)
         times[i] = time() - t1
-        res[i, 0:len(gpytorch.settings.record_residual.lst_residual_norm)] = torch.tensor(gpytorch.settings.record_residual_lst_residual_norm)
+        res[i, 0:len(gpytorch.settings.record_residual.lst_residual_norm)] = torch.tensor(gpytorch.settings.record_residual.lst_residual_norm)
 
     avgs = res.sum(0) / (res != 0).sum(0)
     avgs = avgs[:torch.where(torch.isnan(avgs))[0][0]]
