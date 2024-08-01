@@ -124,7 +124,6 @@ def solve_system(
         times[i] = time() - t1
         res[i, 0:len(gpytorch.settings.record_residual.lst_residual_norm)] = torch.tensor(gpytorch.settings.record_residual.lst_residual_norm)
 
-    times = times.mean()
 
     torch.save(
                 {
