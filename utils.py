@@ -91,6 +91,7 @@ def train_data(data_name, seed, device):
     func = getattr(uci, data_name)
     ds = data.UCI_Dataset(func, seed=seed, device=device)
     ds.preprocess()
+    print("Traing data, n:{}, d:{}".format(ds.train_x.shape[0], ds.train_x.shape[1]))
     return ds.train_x, ds.train_y
 
 def solve_system(
