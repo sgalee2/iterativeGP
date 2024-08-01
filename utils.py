@@ -115,6 +115,7 @@ def solve_system(
     times = torch.zeros(trials)
     
     for i in range(trials):
+        print("Solve trial {}/{}".format(i, trials))
         mvn = likelihood(model(train_x))
         K_hat = mvn.lazy_covariance_matrix
         gpytorch.settings.record_residual.lst_residual_norm = []
