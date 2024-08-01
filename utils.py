@@ -117,7 +117,7 @@ def solve_system(
     for i in range(trials):
         gpytorch.settings.record_residual.lst_residual_norm = []
         t1 = time()
-        sol = K_hat.inv_matmul(b)
+        sol = K_hat.inv_matmul(train_y)
         times[i] = time() - t1
         res[i, 0:len(gpytorch.settings.record_residual.lst_residual_norm)] = torch.tensor(gpytorch.settings.record_residual_lst_residual_norm)
 
@@ -128,6 +128,7 @@ def solve_system(
     torch.save(
                 {
                     'average_error': avgs,
+                    'sol': sol,
                     'run_times': times
                 }, "{}/numtrials_{}.tar".format(save_loc, trials)
             )
