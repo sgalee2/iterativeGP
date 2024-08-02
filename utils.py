@@ -130,7 +130,7 @@ def solve_system(
                     'res': res,
                     'sol': sol,
                     'run_times': times
-                }, "{}/preconsize_{}_numtrials_{}.tar".format(save_loc, gpytorch.settings.max_preconditioner_size.value(), trials)
+                }, "{}/numtrials_{}.tar".format(save_loc, trials)
             )
 
 

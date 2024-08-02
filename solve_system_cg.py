@@ -23,7 +23,7 @@ if __name__ == "__main__":
          precon_func():
 
             if args.save_loc is not None:
-                solve_system(model, likelihood, train_x, train_y, save_loc=args.save_loc, rand_rhs=False, trials=args.maxiter 
+                solve_system(model, likelihood, train_x, train_y, save_loc="{}/{}/{}/{}".format(args.save_loc, args.dataset, args.preconditioner, args.precond_size), rand_rhs=False, trials=args.maxiter 
                              )
             else:
                 print("No save location specified")
