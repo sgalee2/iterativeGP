@@ -1,1 +1,1 @@
-!python train_cg.py
+python train_cg.py
