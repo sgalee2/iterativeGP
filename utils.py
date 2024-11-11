@@ -26,6 +26,8 @@ def train(
     optimizer = torch.optim.Adam(model.parameters(), lr=eta)
     mll = gpytorch.mlls.ExactMarginalLogLikelihood(likelihood, model)
 
+    all_grads = []
+
     for i in range(maxiter):
         t1 = time()
         optimizer.zero_grad()
@@ -38,7 +40,14 @@ def train(
         optimizer.step()
         iter_time = time() - t1
 
+        grads = []
+
         with torch.no_grad():
+
+            for idx, param in enumerate(model.parameters()):
+                grads.append(param.grad)
+            all_grads.append(grads)
+            
             print(
                 "iter {:3d}/{:3d},".format(i + 1, maxiter),
                 "loss {:.6f},".format(loss.item()),
@@ -54,6 +63,7 @@ def train(
                     'model_state_dict': model.state_dict(),
                     'lengthscale': model.covar_module.base_kernel.lengthscale,
                     'noise': model.likelihood.noise.item(),
+                    'grads': all_grads,
                     'lst_residual_norm': settings.record_residual.lst_residual_norm,
                     'iteration_time': iter_time,
                 }, "{}/epoch_{}.tar".format(save_loc, i)
