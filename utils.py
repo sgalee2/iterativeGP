@@ -58,6 +58,7 @@ def train(
                 {
                     'epoch': i,
                     'model_state_dict': model.state_dict(),
+                    'loss': loss.item(),
                     'lengthscale': model.covar_module.base_kernel.lengthscale,
                     'noise': model.likelihood.noise.item(),
                     'grads': grads,
