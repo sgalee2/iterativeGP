@@ -77,7 +77,7 @@ class InducingGPModel(gpytorch.models.ExactGP):
         tall = self.covar_module(x, self.inducing_points)
         small = self.covar_module(self.inducing_points, self.inducing_points)
         L = gpytorch.utils.cholesky.psd_safe_cholesky(small.evaluate())
-        P = torch.linalg.solve_triangular(L, tall.t().evaluate())
+        P = torch.linalg.solve_triangular(L, tall.t().evaluate(), upper=False)
 
         return gpytorch.distributions.MultivariateNormal(mean_x, RootLazyTensor(P.T))
 
